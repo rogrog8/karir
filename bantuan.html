@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panduan Penggunaan - Kalkulator Karir Dosen</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <main>
+        <header>
+            <h1>Panduan Penggunaan</h1>
+        </header>
+        <a href="index.html" class="btn-back" style="margin-bottom: 25px; display: inline-block;">← Kembali ke Menu Utama</a>
+
+        <div class="syarat-container">
+            <div class="syarat-tabs">
+                <button class="syarat-tab-btn active" data-target="panduan-jenjang">Kalkulator Jenjang</button>
+                <button class="syarat-tab-btn" data-target="panduan-pangkat">Kalkulator Pangkat</button>
+            </div>
+
+            <div class="syarat-content">
+                <div id="panduan-jenjang" class="syarat-pane active">
+                    <h4>Panduan Kalkulator Jenjang Jabatan</h4>
+                    <p>Gunakan kalkulator ini untuk mensimulasikan kenaikan Jabatan Fungsional Anda (misal: dari Lektor ke Lektor Kepala).</p>
+                    <ol>
+                        <li><strong>Jabatan & Pangkat Saat Ini:</strong> Pilih jabatan dan pangkat Anda saat ini.</li>
+                        <li><strong>Tanggal Kenaikan Jabatan Terakhir:</strong> Masukkan tanggal Anda terakhir kali menerima SK Jabatan Fungsional. Perhitungan kinerja (Angka Kredit Konversi) hanya akan dihitung mulai dari tahun tersebut.</li>
+                        <li><strong>Ijazah Baru:</strong> Centang jika Anda memperoleh ijazah (S2/S3) yang lebih tinggi setelah kenaikan jabatan terakhir.</li>
+                        <li><strong>Angka Kredit Integrasi:</strong> Masukkan nilai AK dari konvensional (sebelum 2023) yang belum pernah digunakan untuk kenaikan jabatan. Kosongkan jika sudah pernah dipakai.</li>
+                        <li><strong>Angka Kredit Konversi:</strong> Klik "Tambah Periode Simulasi" untuk menambahkan riwayat penilaian e-kinerja Anda. Kalkulator akan otomatis menghitung AK berdasarkan predikat dan periode penilaian.</li>
+                        <li>Klik "Hitung" untuk melihat analisis dan estimasi kenaikan jenjang Anda.</li>
+                    </ol>
+                </div>
+
+                <div id="panduan-pangkat" class="syarat-pane">
+                     <h4>Panduan Kalkulator Kenaikan Pangkat</h4>
+                     <p>Gunakan kalkulator ini untuk mensimulasikan kenaikan Pangkat/Golongan Anda (misal: dari III/c ke III/d).</p>
+                     <ol>
+                        <li><strong>Pangkat/Golongan Saat Ini:</strong> Pilih pangkat Anda saat ini.</li>
+                        <li><strong>Validasi Jabatan:</strong> Jika muncul pertanyaan validasi, jawab "Ya" jika Anda sudah memiliki Jabatan Fungsional yang disyaratkan untuk kenaikan pangkat tersebut.</li>
+                        <li><strong>TMT Pangkat Terakhir:</strong> Masukkan tanggal TMT pada SK Pangkat terakhir Anda. Kenaikan pangkat baru bisa diajukan minimal 2 tahun setelah tanggal ini.</li>
+                        <li><strong>Perolehan Angka Kredit Baru:</strong> Klik "Tambah Periode Kinerja" dan masukkan riwayat e-kinerja Anda sejak TMT terakhir. Perhitungan dimulai dari nol sejak TMT terakhir.</li>
+                        <li>Klik "Hitung" untuk melihat analisis pemenuhan syarat AK dan waktu, beserta estimasi kenaikan pangkat Anda berikutnya.</li>
+                     </ol>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="dark-mode-toggle" id="darkModeToggle">🌙</div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Logika Dark Mode
+            const body = document.body;
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                body.classList.add('dark-mode');
+                darkModeToggle.innerHTML = '☀️';
+            }
+            darkModeToggle.addEventListener('click', () => {
+                body.classList.toggle('dark-mode');
+                if (body.classList.contains('dark-mode')) {
+                    localStorage.setItem('theme', 'dark');
+                    darkModeToggle.innerHTML = '☀️';
+                } else {
+                    localStorage.setItem('theme', 'light');
+                    darkModeToggle.innerHTML = '🌙';
+                }
+            });
+
+            // Logika Tab
+            const tabButtons = document.querySelectorAll('.syarat-tab-btn');
+            const tabPanes = document.querySelectorAll('.syarat-pane');
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetId = button.getAttribute('data-target');
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    tabPanes.forEach(pane => pane.classList.remove('active'));
+                    button.classList.add('active');
+                    document.getElementById(targetId).classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

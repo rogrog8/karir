@@ -153,6 +153,34 @@ a.menu-button, button.menu-button {
     text-decoration: none;
 }
 
+.btn-help {
+    display: block;
+    width: fit-content;
+    margin: 30px auto 0 auto; /* Memberi jarak atas & otomatis tengahkan */
+    background-color: transparent;
+    border: 1px solid var(--text-light);
+    color: var(--text-light);
+    border-radius: 20px;
+    padding: 8px 15px;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+.btn-help:hover {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+    color: var(--btn-primary-text);
+}
+
+/* Tambahkan di mana saja di style.css */
+.trakteer-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
 /* Animasi untuk header */
 @keyframes gradient-shine {
     to {
@@ -160,6 +188,20 @@ a.menu-button, button.menu-button {
     }
 }
 
+/* Gaya untuk input yang butuh perhatian */
+.input-warning {
+    border-color: var(--yellow-warning) !important;
+    box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.3) !important;
+}
+/* Ganti .form-hint yang lama dengan ini */
+.form-hint {
+    display: block;
+    font-size: 0.8em;
+    color: var(--text-light);
+    margin-top: 8px; /* <-- Beri jarak positif dari atas */
+    margin-bottom: 20px;
+    padding-left: 5px;
+}
 /* Gaya untuk Kontainer Validasi Jabatan */
 .validasi-container {
     background-color: var(--bg-secondary);
@@ -500,6 +542,12 @@ footer {
     footer {
     margin-top: 20px; /* Kurangi dari 30px */
     padding: 10px 0;
+    }
+        .btn-help {
+        padding: 5px 12px; /* Perkecil padding */
+        font-size: 0.8em; /* Perkecil font */
+        border-width: 1px; /* Pertipis border */
+        margin-top: 25px; /* Sesuaikan jarak dari atas */
     }
     }
 /* Penyesuaian Final untuk Tampilan Syarat di Mobile */

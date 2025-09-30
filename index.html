@@ -7,37 +7,47 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.3.4/dist/css/datepicker-bs5.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.3.4/dist/js/datepicker-full.min.js" defer></script>
+
 </head>
 <body>
 
     <main>
         <section id="main-menu">
-            <header class="menu-header">
-            <h1>Karir Dosen</h1>
-            </header>
-            <div class="menu-frame">
-    <div class="menu-buttons">
-    <a href="syarat.html" class="menu-button">
-        <div class="menu-button-content">
-            <span class="menu-icon">📄</span>
-            <span class="menu-title">Syarat Jabatan</span>
-        </div>
-    </a>
-    <button id="btn-menu-kalkulator" class="menu-button">
-        <div class="menu-button-content">
-            <span class="menu-icon">🧮</span>
-            <span class="menu-title">Kalkulator Jenjang</span>
-        </div>
-    </button>
-    <a href="pangkat.html" class="menu-button">
-    <div class="menu-button-content">
-        <span class="menu-icon">📊</span>
-        <span class="menu-title">Kalkulator Pangkat</span>
-    </div>
-    </a>
-    </div>
-        </section>
+    <header class="menu-header">
+        <h1>Karir Dosen</h1>
+    </header>
 
+    <div class="menu-frame">
+        <div class="menu-buttons">
+            <a href="syarat.html" class="menu-button">
+                <div class="menu-button-content">
+                    <span class="menu-icon">📄</span>
+                    <span class="menu-title">Syarat Jabatan</span>
+                </div>
+            </a>
+            <button id="btn-menu-kalkulator" class="menu-button">
+                <div class="menu-button-content">
+                    <span class="menu-icon">🧮</span>
+                    <span class="menu-title">Kalkulator Jenjang</span>
+                </div>
+            </button>
+            <a href="pangkat.html" class="menu-button">
+                <div class="menu-button-content">
+                    <span class="menu-icon">📊</span>
+                    <span class="menu-title">Kalkulator Pangkat</span>
+                </div>
+            </a>
+        </div>
+    </div> <a href="bantuan.html" class="btn-help">? Cara Pakai</a>
+    <div class="trakteer-container">
+    <a href="https://trakteer.id/rogrog8" target="_blank" rel="noopener noreferrer">
+        <img id="wse-buttons-preview" src="https://cdn.trakteer.id/images/embed/trbtn-blue-5.png" alt="Trakteer" style="border: 0; height: 36px;">
+    </a>
+    </div>
+</section>
         <section id="kalkulator-utama" class="hidden">
             <header>
                 <h1>Kalkulator Jenjang Jabatan</h1>
@@ -59,6 +69,10 @@
                         <label for="pangkat">Pangkat/Golongan Saat Ini:</label>
                         <select id="pangkat" required></select>
                     </div>
+                    <div class="form-group">
+                    <label for="tanggal-kenaikan">Tanggal Kenaikan Jabatan Terakhir:</label>
+                    <input type="text" id="tanggal-kenaikan" required placeholder="dd/mm/yyyy">
+                    </div>
                     <div class="form-group checkbox-group">
                         <input type="checkbox" id="ijazah-baru">
                         <label for="ijazah-baru">Saya memperoleh ijazah baru (S2/S3) yang lebih tinggi</label>
@@ -68,6 +82,7 @@
                         <label>Tahun 2022</label>
                         <input type="number" id="ak-integrasi" value="0" step="0.01" placeholder="Masukkan jumlah AK">
                     </div>
+                    <small class="form-hint">Kosongkan jika angka kredit integrasi sudah dipakai untuk kenaikan jenjang!</small>
                     <h3>Angka Kredit Konversi</h3>
                     <div class="simulasi-header">
                         <span>Tahun</span>
@@ -86,17 +101,6 @@
     <div id="modal-hasil" class="modal-overlay">
         <div class="modal-content"><button class="modal-close-btn">&times;</button><div id="modal-output"></div></div>
     </div>
-    <div id="modal-syarat" class="modal-overlay">
-        <div class="modal-content">
-            <button class="modal-close-btn">&times;</button>
-            <h2>Syarat Kenaikan Jabatan Fungsional</h2>
-            <div class="syarat-section"><h4>Asisten Ahli (150 AK)</h4><ul><li>Memiliki ijazah Magister (S2).</li><li>Memiliki publikasi ilmiah (minimal 1 jurnal nasional).</li></ul></div>
-            <div class="syarat-section"><h4>Lektor (200 / 300 AK)</h4><ul><li>Telah memenuhi angka kredit yang dipersyaratkan.</li><li>Memiliki publikasi ilmiah (minimal 1 jurnal nasional terakreditasi).</li><li>Telah melaksanakan pengajaran dan pengabdian masyarakat.</li></ul></div>
-            <div class="syarat-section"><h4>Lektor Kepala (400 / 550 / 700 AK)</h4><ul><li>Memiliki ijazah Doktor (S3) untuk target 700 AK.</li><li>Memiliki publikasi ilmiah (minimal 1 jurnal internasional).</li><li>Telah memenuhi syarat khusus lainnya yang ditetapkan.</li></ul></div>
-            <div class="syarat-section"><h4>Guru Besar / Profesor (850 / 1050 AK)</h4><ul><li>Memiliki ijazah Doktor (S3).</li><li>Memiliki publikasi ilmiah (minimal 1 jurnal internasional bereputasi).</li><li>Telah memenuhi syarat khusus yang sangat ketat (karya monumental, dsb).</li></ul></div>
-        </div>
-    </div>
-
     <div class="dark-mode-toggle" id="darkModeToggle">🌙</div>
     <footer><p>Copyright © 2025 @rogrog</p></footer>
     

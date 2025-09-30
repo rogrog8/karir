@@ -40,39 +40,81 @@ document.addEventListener('DOMContentLoaded', function() {
         modalHasil.classList.add('active');
     }
 
-    function tambahPeriodeInput() {
-        const baris = document.createElement('div');
-        baris.className = 'baris-periode';
-        const inputTahun = document.createElement('input');
-        inputTahun.type = 'number';
-        inputTahun.className = 'input-tahun';
-        inputTahun.value = riwayatContainer.childElementCount > 0 ? parseInt(riwayatContainer.lastChild.querySelector('.input-tahun').value) + 1 : new Date().getFullYear();
-        const opsiPeriode = { "Bulanan": 1, "Triwulanan": 3, "Semester": 6, "Tahunan": 12 };
-        const selectPeriode = document.createElement('select');
-        selectPeriode.className = 'input-periode';
-        for (const [nama, bulan] of Object.entries(opsiPeriode)) {
-            const option = document.createElement('option');
-            option.value = bulan;
-            option.textContent = nama;
-            selectPeriode.appendChild(option);
-        }
-        const opsiPredikat = ["Sangat Baik", "Baik", "Butuh Perbaikan", "Kurang", "Sangat Kurang"];
-        const selectPredikat = document.createElement('select');
-        selectPredikat.className = 'input-predikat';
-        opsiPredikat.forEach(opt => {
-            const option = document.createElement('option');
-            option.value = opt;
-            option.textContent = opt;
-            selectPredikat.appendChild(option);
-        });
-        const hapusBtn = document.createElement('button');
-        hapusBtn.textContent = '×';
-        hapusBtn.type = 'button';
-        hapusBtn.className = 'btn-hapus';
-        hapusBtn.onclick = () => baris.remove();
-        baris.append(inputTahun, selectPeriode, selectPredikat, hapusBtn);
-        riwayatContainer.appendChild(baris);
+    // Ganti fungsi tambahPeriodeInput yang lama dengan ini
+
+function tambahPeriodeInput() {
+    const tmtValue = tmtInput.value;
+
+    // --- VALIDASI BARU ---
+    // 1. Cek apakah TMT sudah diisi
+    if (!tmtValue) {
+        // Buat pesan error dalam format HTML
+        const pesanError = `
+            <h2>Selamat Datang</h2>
+            <div class="notif info">
+                <strong>Ini adalah kalkulator pangkat</strong><br>
+                Silakan isi 'TMT Pangkat Terakhir' terlebih dahulu sebelum menambahkan periode kinerja.
+            </div>
+        `;
+        // Gunakan fungsi renderHasil() yang sudah ada untuk menampilkan modal
+        renderHasil(pesanError); 
+        tmtInput.classList.add('input-warning');
+        return;
     }
+    
+    // Hapus tanda jika sudah diisi
+    tmtInput.classList.remove('input-warning');
+
+    const [day, month, year] = tmtValue.split('/');
+    const tahunTmt = parseInt(year);
+
+    // Dapatkan tahun terakhir yang sudah diinput (jika ada)
+    const tahunTerakhirDiinput = riwayatContainer.childElementCount > 0 
+        ? parseInt(riwayatContainer.lastChild.querySelector('.input-tahun').value) 
+        : tahunTmt - 1;
+
+    // 2. Cek apakah tahun berikutnya valid
+    const tahunBerikutnya = tahunTerakhirDiinput + 1;
+    if (tahunBerikutnya < tahunTmt) {
+        alert(`Anda tidak bisa menambahkan kinerja dari tahun ${tahunBerikutnya} karena sebelum tahun TMT Anda (${tahunTmt}).`);
+        return; // Hentikan fungsi
+    }
+
+    // --- Lanjutan kode yang sudah ada ---
+    const baris = document.createElement('div');
+    baris.className = 'baris-periode';
+    const inputTahun = document.createElement('input');
+    inputTahun.type = 'number';
+    inputTahun.className = 'input-tahun';
+    // Gunakan tahunBerikutnya yang sudah divalidasi, atau tahun TMT jika ini input pertama
+    inputTahun.value = riwayatContainer.childElementCount === 0 ? tahunTmt : tahunBerikutnya;
+    
+    const opsiPeriode = { "Bulanan": 1, "Triwulanan": 3, "Semester": 6, "Tahunan": 12 };
+    const selectPeriode = document.createElement('select');
+    selectPeriode.className = 'input-periode';
+    for (const [nama, bulan] of Object.entries(opsiPeriode)) {
+        const option = document.createElement('option');
+        option.value = bulan;
+        option.textContent = nama;
+        selectPeriode.appendChild(option);
+    }
+    const opsiPredikat = ["Sangat Baik", "Baik", "Butuh Perbaikan", "Kurang", "Sangat Kurang"];
+    const selectPredikat = document.createElement('select');
+    selectPredikat.className = 'input-predikat';
+    opsiPredikat.forEach(opt => {
+        const option = document.createElement('option');
+        option.value = opt;
+        option.textContent = opt;
+        selectPredikat.appendChild(option);
+    });
+    const hapusBtn = document.createElement('button');
+    hapusBtn.textContent = '×';
+    hapusBtn.type = 'button';
+    hapusBtn.className = 'btn-hapus';
+    hapusBtn.onclick = () => baris.remove();
+    baris.append(inputTahun, selectPeriode, selectPredikat, hapusBtn);
+    riwayatContainer.appendChild(baris);
+}
 
     function cekValidasiJabatan() {
         const pangkatTerpilih = pangkatSelect.value;
@@ -148,66 +190,92 @@ document.addEventListener('DOMContentLoaded', function() {
     modalHasil.addEventListener('click', (e) => { if (e.target === modalHasil) modalHasil.classList.remove('active'); });
     
     // --- Form Submit Utama ---
-    formPangkat.addEventListener('submit', function(e) {
-        e.preventDefault();
-        const pangkatSaatIni = pangkatSelect.value;
-        const tmtTerakhirInput = tmtInput.value;
-        const akAwal = parseFloat(document.getElementById('ak-saat-ini').value);
-        let akBaru = 0;
-        let totalBulanKinerja = 0;
-        const aturanPangkatIni = ATURAN_PANGKAT[pangkatSaatIni];
-        const koefisien = aturanPangkatIni ? aturanPangkatIni.koefisien : 0;
+// Ganti seluruh blok event listener formPangkat dengan yang ini
+formPangkat.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const pangkatSaatIni = pangkatSelect.value;
+    const tmtTerakhirInput = tmtInput.value;
+    
+    // Perhitungan akAwal dihapus
 
-        const riwayatKinerja = document.querySelectorAll('#riwayat-kinerja-container .baris-periode');
-        riwayatKinerja.forEach(baris => {
-            const bulan = parseInt(baris.querySelector('.input-periode').value);
-            const predikat = baris.querySelector('.input-predikat').value;
-            const pengali = KONVERSI_KINERJA[predikat] || 0;
-            akBaru += (bulan / 12) * pengali * koefisien;
-            totalBulanKinerja += bulan;
-        });
+    let akBaru = 0;
+    let totalBulanKinerja = 0;
+    const aturanPangkatIni = ATURAN_PANGKAT[pangkatSaatIni];
+    const koefisien = aturanPangkatIni ? aturanPangkatIni.koefisien : 0;
 
-        const totalAkTerkumpul = akAwal + akBaru;
-        const aturan = ATURAN_PANGKAT[pangkatSaatIni];
-        const targetPangkat = aturan.target;
-        if (!targetPangkat) {
-            renderHasil("<h2>Analisis Kenaikan Pangkat</h2><p>Anda sudah berada di pangkat puncak.</p>");
-            return;
-        }
-
-        const akDibutuhkan = aturan.butuh;
-        const kekurangan = akDibutuhkan - totalAkTerkumpul;
-        let pesan = `<h2>Analisis Kenaikan Pangkat</h2><p>Pangkat Saat Ini: <strong>${pangkatSaatIni}</strong></p><p>AK Terkumpul Sejak Pangkat Terakhir: <strong>${akAwal.toFixed(2)}</strong></p><p>+ AK Baru (e-Kinerja): <strong>${akBaru.toFixed(2)}</strong></p><hr><p><strong>Total AK Baru Terkumpul: ${totalAkTerkumpul.toFixed(2)}</strong></p><hr><p>Target Berikutnya: <strong>Pangkat ${targetPangkat}</strong></p><p>Syarat AK Tambahan: <strong>${akDibutuhkan}</strong></p>`;
+    const riwayatKinerja = document.querySelectorAll('#riwayat-kinerja-container .baris-periode');
+    riwayatKinerja.forEach(baris => {
+        const tahunKinerja = parseInt(baris.querySelector('.input-tahun').value);
+        let bulanKinerja = parseInt(baris.querySelector('.input-periode').value);
+        const predikat = baris.querySelector('.input-predikat').value;
+        const pengali = KONVERSI_KINERJA[predikat] || 0;
         
-        const [day, month, year] = tmtTerakhirInput.split('/');
-        const tmtTerakhir = new Date(`${year}-${month}-${day}`);
-        const tanggalSyaratWaktu = new Date(tmtTerakhir);
-        tanggalSyaratWaktu.setFullYear(tanggalSyaratWaktu.getFullYear() + 2);
-        const hariIni = new Date();
+        const [dayTmt, monthTmt, yearTmt] = tmtTerakhirInput.split('/');
+        const tahunTmt = parseInt(yearTmt);
+        const bulanTmt = parseInt(monthTmt);
 
-        let estimasiPesan = '';
-        if (totalBulanKinerja > 0 && akBaru > 0 && kekurangan > 0) {
-            const akPerBulanRataRata = akBaru / totalBulanKinerja;
-            const bulanDibutuhkan = Math.ceil(kekurangan / akPerBulanRataRata);
-            const tanggalMulaiEstimasi = hariIni > tanggalSyaratWaktu ? hariIni : tanggalSyaratWaktu;
-            tanggalMulaiEstimasi.setMonth(tanggalMulaiEstimasi.getMonth() + bulanDibutuhkan);
-            const namaBulan = tanggalMulaiEstimasi.toLocaleString('id-ID', { month: 'long' });
-            const tahunProyeksi = tanggalMulaiEstimasi.getFullYear();
-            estimasiPesan = `<div class="notif estimasi">Dengan kinerja stabil, estimasi kenaikan ke <strong>Pangkat ${targetPangkat}</strong> dapat tercapai pada periode: <br><strong>${namaBulan} ${tahunProyeksi}</strong></div>`;
-        }
-
-        if (hariIni < tanggalSyaratWaktu) {
-            const tanggalPengajuanFormatted = tanggalSyaratWaktu.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
-            pesan += `<div class="notif info"><strong>Syarat Waktu Belum Terpenuhi.</strong><br>Anda baru bisa mengajukan paling cepat pada <strong>${tanggalPengajuanFormatted}</strong>.</div>`;
-            pesan += estimasiPesan;
+        if (tahunKinerja === tahunTmt) {
+            const bulanYangDihitung = 12 - bulanTmt + 1;
+            akBaru += (bulanYangDihitung / 12) * pengali * koefisien;
+            totalBulanKinerja += bulanYangDihitung;
         } else {
-            if (kekurangan <= 0) {
-                pesan += `<div class="notif sukses"><strong>Selamat!</strong> Anda sudah memenuhi syarat Angka Kredit dan Waktu untuk naik ke Pangkat ${targetPangkat}.<br>Kelebihan AK: <strong>${(-kekurangan).toFixed(2)}</strong></div>`;
-            } else {
-                pesan += `<div class="notif info">Anda masih membutuhkan <strong>${kekurangan.toFixed(2)}</strong> Angka Kredit lagi.</div>`;
-                pesan += estimasiPesan;
-            }
+            akBaru += (bulanKinerja / 12) * pengali * koefisien;
+            totalBulanKinerja += bulanKinerja;
         }
-        renderHasil(pesan);
     });
+
+    const totalAkTerkumpul = akBaru; // Disederhanakan, hanya dari akBaru
+    const aturan = ATURAN_PANGKAT[pangkatSaatIni];
+    const targetPangkat = aturan.target;
+    if (!targetPangkat) {
+        renderHasil("<h2>Analisis Kenaikan Pangkat</h2><p>Anda sudah berada di pangkat puncak.</p>");
+        return;
+    }
+
+    const akDibutuhkan = aturan.butuh;
+    const kekurangan = akDibutuhkan - totalAkTerkumpul;
+
+    let pesan = `
+        <h2>Analisis Kenaikan Pangkat</h2>
+        <p>Pangkat Saat Ini: <strong>${pangkatSaatIni}</strong></p>
+        <p>+ AK Baru (e-Kinerja): <strong>${akBaru.toFixed(3)}</strong></p>
+        <hr>
+        <p><strong>Total AK Baru Terkumpul: ${totalAkTerkumpul.toFixed(3)}</strong></p>
+        <hr>
+        <p>Target Berikutnya: <strong>Pangkat ${targetPangkat}</strong></p>
+        <p>Syarat AK Tambahan: <strong>${akDibutuhkan}</strong></p>
+    `;
+    
+    // Sisa logika (validasi TMT & estimasi) tidak berubah...
+    const [day, month, year] = tmtTerakhirInput.split('/');
+    const tmtTerakhir = new Date(`${year}-${month}-${day}`);
+    const tanggalSyaratWaktu = new Date(tmtTerakhir);
+    tanggalSyaratWaktu.setFullYear(tanggalSyaratWaktu.getFullYear() + 2);
+    const hariIni = new Date();
+
+    let estimasiPesan = '';
+    if (totalBulanKinerja > 0 && akBaru > 0 && kekurangan > 0) {
+        const akPerBulanRataRata = akBaru / totalBulanKinerja;
+        const bulanDibutuhkan = Math.ceil(kekurangan / akPerBulanRataRata);
+        const tanggalMulaiEstimasi = hariIni > tanggalSyaratWaktu ? hariIni : tanggalSyaratWaktu;
+        tanggalMulaiEstimasi.setMonth(tanggalMulaiEstimasi.getMonth() + bulanDibutuhkan);
+        const namaBulan = tanggalMulaiEstimasi.toLocaleString('id-ID', { month: 'long' });
+        const tahunProyeksi = tanggalMulaiEstimasi.getFullYear();
+        estimasiPesan = `<div class="notif estimasi">Dengan kinerja stabil, estimasi kenaikan ke <strong>Pangkat ${targetPangkat}</strong> dapat tercapai pada periode: <br><strong>${namaBulan} ${tahunProyeksi}</strong></div>`;
+    }
+
+    if (hariIni < tanggalSyaratWaktu) {
+        const tanggalPengajuanFormatted = tanggalSyaratWaktu.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+        pesan += `<div class="notif info"><strong>Syarat Waktu Belum Terpenuhi.</strong><br>Anda baru bisa mengajukan paling cepat pada <strong>${tanggalPengajuanFormatted}</strong>.</div>`;
+        pesan += estimasiPesan;
+    } else {
+        if (kekurangan <= 0) {
+            pesan += `<div class="notif sukses"><strong>Selamat!</strong> Anda sudah memenuhi syarat Angka Kredit dan Waktu untuk naik ke Pangkat ${targetPangkat}.<br>Kelebihan AK: <strong>${(-kekurangan).toFixed(2)}</strong></div>`;
+        } else {
+            pesan += `<div class="notif info">Anda masih membutuhkan <strong>${kekurangan.toFixed(2)}</strong> Angka Kredit lagi.</div>`;
+            pesan += estimasiPesan;
+        }
+    }
+    renderHasil(pesan);
+});
 });
