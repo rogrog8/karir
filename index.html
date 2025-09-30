@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karir Dosen</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <main>
+        <section id="main-menu">
+            <header class="menu-header">
+            <h1>Karir Dosen</h1>
+            </header>
+            <div class="menu-frame">
+    <div class="menu-buttons">
+    <a href="syarat.html" class="menu-button">
+        <div class="menu-button-content">
+            <span class="menu-icon">📄</span>
+            <span class="menu-title">Syarat Jabatan</span>
+        </div>
+    </a>
+    <button id="btn-menu-kalkulator" class="menu-button">
+        <div class="menu-button-content">
+            <span class="menu-icon">🧮</span>
+            <span class="menu-title">Kalkulator Jenjang</span>
+        </div>
+    </button>
+    <a href="pangkat.html" class="menu-button">
+    <div class="menu-button-content">
+        <span class="menu-icon">📊</span>
+        <span class="menu-title">Kalkulator Pangkat</span>
+    </div>
+    </a>
+    </div>
+        </section>
+
+        <section id="kalkulator-utama" class="hidden">
+            <header>
+                <h1>Kalkulator Jenjang Jabatan</h1>
+            </header>
+            <button id="btn-kembali" class="btn-back">← Kembali ke Menu</button>
+            
+            <section class="kalkulator-card">
+                <form id="form-simulasi">
+                    <div class="form-group">
+                        <label for="jenjang">Jabatan Fungsional Saat Ini:</label>
+                        <select id="jenjang" required>
+                            <option value="Asisten Ahli">Asisten Ahli</option>
+                            <option value="Lektor">Lektor</option>
+                            <option value="Lektor Kepala">Lektor Kepala</option>
+                            <option value="Guru Besar">Guru Besar</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="pangkat">Pangkat/Golongan Saat Ini:</label>
+                        <select id="pangkat" required></select>
+                    </div>
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="ijazah-baru">
+                        <label for="ijazah-baru">Saya memperoleh ijazah baru (S2/S3) yang lebih tinggi</label>
+                    </div>
+                    <h3>Angka Kredit Integrasi</h3>
+                    <div class="integrasi-row">
+                        <label>Tahun 2022</label>
+                        <input type="number" id="ak-integrasi" value="0" step="0.01" placeholder="Masukkan jumlah AK">
+                    </div>
+                    <h3>Angka Kredit Konversi</h3>
+                    <div class="simulasi-header">
+                        <span>Tahun</span>
+                        <span>Periode</span>
+                        <span>Nilai</span>
+                    </div>
+                    <div id="riwayat-kinerja-container"></div>
+                    <button type="button" id="tambah-periode" class="btn-secondary">Tambah Periode Simulasi</button>
+                    <hr>
+                    <button type="submit" class="btn-primary">Hitung Simulasi Karir</button>
+                </form>
+            </section>
+        </section>
+    </main>
+    
+    <div id="modal-hasil" class="modal-overlay">
+        <div class="modal-content"><button class="modal-close-btn">&times;</button><div id="modal-output"></div></div>
+    </div>
+    <div id="modal-syarat" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close-btn">&times;</button>
+            <h2>Syarat Kenaikan Jabatan Fungsional</h2>
+            <div class="syarat-section"><h4>Asisten Ahli (150 AK)</h4><ul><li>Memiliki ijazah Magister (S2).</li><li>Memiliki publikasi ilmiah (minimal 1 jurnal nasional).</li></ul></div>
+            <div class="syarat-section"><h4>Lektor (200 / 300 AK)</h4><ul><li>Telah memenuhi angka kredit yang dipersyaratkan.</li><li>Memiliki publikasi ilmiah (minimal 1 jurnal nasional terakreditasi).</li><li>Telah melaksanakan pengajaran dan pengabdian masyarakat.</li></ul></div>
+            <div class="syarat-section"><h4>Lektor Kepala (400 / 550 / 700 AK)</h4><ul><li>Memiliki ijazah Doktor (S3) untuk target 700 AK.</li><li>Memiliki publikasi ilmiah (minimal 1 jurnal internasional).</li><li>Telah memenuhi syarat khusus lainnya yang ditetapkan.</li></ul></div>
+            <div class="syarat-section"><h4>Guru Besar / Profesor (850 / 1050 AK)</h4><ul><li>Memiliki ijazah Doktor (S3).</li><li>Memiliki publikasi ilmiah (minimal 1 jurnal internasional bereputasi).</li><li>Telah memenuhi syarat khusus yang sangat ketat (karya monumental, dsb).</li></ul></div>
+        </div>
+    </div>
+
+    <div class="dark-mode-toggle" id="darkModeToggle">🌙</div>
+    <footer><p>Copyright © 2025 @rogrog</p></footer>
+    
+    <script src="js/kalkulator.js" defer></script>
+    <script src="js/main.js" defer></script>
+</body>
+</html>

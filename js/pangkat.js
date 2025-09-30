@@ -1,0 +1,213 @@
+document.addEventListener('DOMContentLoaded', function() {
+    // --- Elemen Global ---
+    const body = document.body;
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    const pangkatSelect = document.getElementById('pangkat-sekarang');
+    const tmtInput = document.getElementById('tmt-terakhir');
+    const formPangkat = document.getElementById('form-pangkat');
+    const riwayatContainer = document.getElementById('riwayat-kinerja-container');
+    const tambahPeriodeBtn = document.getElementById('tambah-periode');
+    const validasiContainer = document.getElementById('validasi-jabatan');
+    const validasiPertanyaan = document.getElementById('validasi-pertanyaan');
+    const btnValidasiYa = document.getElementById('btn-validasi-ya');
+    const btnValidasiTidak = document.getElementById('btn-validasi-tidak');
+    const formKonten = document.getElementById('form-konten');
+    const modalHasil = document.getElementById('modal-hasil-pangkat');
+    const modalOutput = document.getElementById('modal-output-pangkat');
+    const closeModalBtn = modalHasil.querySelector('.modal-close-btn');
+
+    // --- Data Pangkat, Koefisien, dan Kinerja ---
+    const ATURAN_PANGKAT = {
+        "III/a": { ak_kumulatif: 100, target: "III/b", butuh: 50, koefisien: 12.5 },
+        "III/b": { ak_kumulatif: 150, target: "III/c", butuh: 50, koefisien: 12.5 },
+        "III/c": { ak_kumulatif: 200, target: "III/d", butuh: 100, koefisien: 25 },
+        "III/d": { ak_kumulatif: 300, target: "IV/a", butuh: 100, koefisien: 25 },
+        "IV/a": { ak_kumulatif: 400, target: "IV/b", butuh: 150, koefisien: 37.5 },
+        "IV/b": { ak_kumulatif: 550, target: "IV/c", butuh: 150, koefisien: 37.5 },
+        "IV/c": { ak_kumulatif: 700, target: "IV/d", butuh: 150, koefisien: 37.5 },
+        "IV/d": { ak_kumulatif: 850, target: "IV/e", butuh: 200, koefisien: 50 },
+        "IV/e": { ak_kumulatif: 1050, target: null, butuh: 0, koefisien: 50 }
+    };
+    const KONVERSI_KINERJA = { "Sangat Baik": 1.50, "Baik": 1.00, "Butuh Perbaikan": 0.75, "Kurang": 0.50, "Sangat Kurang": 0.25 };
+    const SYARAT_JABATAN = { "III/c": "Lektor", "IV/a": "Lektor Kepala", "IV/d": "Guru Besar" };
+
+    // ================================================================
+    //             DEKLARASI FUNGSI-FUNGSI UTAMA
+    // ================================================================
+
+    function renderHasil(html) {
+        modalOutput.innerHTML = html;
+        modalHasil.classList.add('active');
+    }
+
+    function tambahPeriodeInput() {
+        const baris = document.createElement('div');
+        baris.className = 'baris-periode';
+        const inputTahun = document.createElement('input');
+        inputTahun.type = 'number';
+        inputTahun.className = 'input-tahun';
+        inputTahun.value = riwayatContainer.childElementCount > 0 ? parseInt(riwayatContainer.lastChild.querySelector('.input-tahun').value) + 1 : new Date().getFullYear();
+        const opsiPeriode = { "Bulanan": 1, "Triwulanan": 3, "Semester": 6, "Tahunan": 12 };
+        const selectPeriode = document.createElement('select');
+        selectPeriode.className = 'input-periode';
+        for (const [nama, bulan] of Object.entries(opsiPeriode)) {
+            const option = document.createElement('option');
+            option.value = bulan;
+            option.textContent = nama;
+            selectPeriode.appendChild(option);
+        }
+        const opsiPredikat = ["Sangat Baik", "Baik", "Butuh Perbaikan", "Kurang", "Sangat Kurang"];
+        const selectPredikat = document.createElement('select');
+        selectPredikat.className = 'input-predikat';
+        opsiPredikat.forEach(opt => {
+            const option = document.createElement('option');
+            option.value = opt;
+            option.textContent = opt;
+            selectPredikat.appendChild(option);
+        });
+        const hapusBtn = document.createElement('button');
+        hapusBtn.textContent = '×';
+        hapusBtn.type = 'button';
+        hapusBtn.className = 'btn-hapus';
+        hapusBtn.onclick = () => baris.remove();
+        baris.append(inputTahun, selectPeriode, selectPredikat, hapusBtn);
+        riwayatContainer.appendChild(baris);
+    }
+
+    function cekValidasiJabatan() {
+        const pangkatTerpilih = pangkatSelect.value;
+        const targetJabatan = SYARAT_JABATAN[pangkatTerpilih];
+        const submitButton = formPangkat.querySelector('.btn-primary');
+
+        if (targetJabatan) {
+            validasiPertanyaan.textContent = `Apakah Anda sudah naik jenjang ke jabatan ${targetJabatan}?`;
+            validasiContainer.classList.remove('hidden');
+            formKonten.classList.add('disabled');
+            if(submitButton) submitButton.disabled = true;
+        } else {
+            validasiContainer.classList.add('hidden');
+            formKonten.classList.remove('disabled');
+            if(submitButton) submitButton.disabled = false;
+        }
+    }
+
+    // ================================================================
+    //             INISIALISASI & EVENT LISTENERS
+    // ================================================================
+
+    // --- Dark Mode ---
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+        body.classList.add('dark-mode');
+        darkModeToggle.innerHTML = '☀️';
+    }
+    darkModeToggle.addEventListener('click', () => {
+        body.classList.toggle('dark-mode');
+        if (body.classList.contains('dark-mode')) {
+            localStorage.setItem('theme', 'dark');
+            darkModeToggle.innerHTML = '☀️';
+        } else {
+            localStorage.setItem('theme', 'light');
+            darkModeToggle.innerHTML = '🌙';
+        }
+    });
+
+    // --- Datepicker ---
+    if (tmtInput) {
+        new Datepicker(tmtInput, { format: 'dd/mm/yyyy', autohide: true, buttonClass: 'btn' });
+    }
+
+    // --- Dropdown Pangkat ---
+    for (const pangkat in ATURAN_PANGKAT) {
+        const option = document.createElement('option');
+        option.value = pangkat;
+        option.textContent = `Pangkat ${pangkat}`;
+        pangkatSelect.appendChild(option);
+    }
+    
+    // --- Validasi Jabatan ---
+    pangkatSelect.addEventListener('change', cekValidasiJabatan);
+    btnValidasiYa.addEventListener('click', () => {
+        const submitButton = formPangkat.querySelector('.btn-primary');
+        validasiContainer.classList.add('hidden');
+        formKonten.classList.remove('disabled');
+        if(submitButton) submitButton.disabled = false;
+    });
+    btnValidasiTidak.addEventListener('click', () => {
+        const pesan = `<h2>Validasi Jabatan</h2><div class="notif info"><strong>Silakan melakukan kenaikan jabatan terlebih dahulu.</strong><br>Anda harus memenuhi syarat jenjang jabatan fungsional sebelum dapat mengajukan kenaikan pangkat ini.</div>`;
+        renderHasil(pesan);
+    });
+    cekValidasiJabatan();
+
+    // --- Tambah Periode Kinerja ---
+    tambahPeriodeBtn.addEventListener('click', tambahPeriodeInput);
+    tambahPeriodeInput();
+
+    // --- Modal ---
+    closeModalBtn.addEventListener('click', () => modalHasil.classList.remove('active'));
+    modalHasil.addEventListener('click', (e) => { if (e.target === modalHasil) modalHasil.classList.remove('active'); });
+    
+    // --- Form Submit Utama ---
+    formPangkat.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const pangkatSaatIni = pangkatSelect.value;
+        const tmtTerakhirInput = tmtInput.value;
+        const akAwal = parseFloat(document.getElementById('ak-saat-ini').value);
+        let akBaru = 0;
+        let totalBulanKinerja = 0;
+        const aturanPangkatIni = ATURAN_PANGKAT[pangkatSaatIni];
+        const koefisien = aturanPangkatIni ? aturanPangkatIni.koefisien : 0;
+
+        const riwayatKinerja = document.querySelectorAll('#riwayat-kinerja-container .baris-periode');
+        riwayatKinerja.forEach(baris => {
+            const bulan = parseInt(baris.querySelector('.input-periode').value);
+            const predikat = baris.querySelector('.input-predikat').value;
+            const pengali = KONVERSI_KINERJA[predikat] || 0;
+            akBaru += (bulan / 12) * pengali * koefisien;
+            totalBulanKinerja += bulan;
+        });
+
+        const totalAkTerkumpul = akAwal + akBaru;
+        const aturan = ATURAN_PANGKAT[pangkatSaatIni];
+        const targetPangkat = aturan.target;
+        if (!targetPangkat) {
+            renderHasil("<h2>Analisis Kenaikan Pangkat</h2><p>Anda sudah berada di pangkat puncak.</p>");
+            return;
+        }
+
+        const akDibutuhkan = aturan.butuh;
+        const kekurangan = akDibutuhkan - totalAkTerkumpul;
+        let pesan = `<h2>Analisis Kenaikan Pangkat</h2><p>Pangkat Saat Ini: <strong>${pangkatSaatIni}</strong></p><p>AK Terkumpul Sejak Pangkat Terakhir: <strong>${akAwal.toFixed(2)}</strong></p><p>+ AK Baru (e-Kinerja): <strong>${akBaru.toFixed(2)}</strong></p><hr><p><strong>Total AK Baru Terkumpul: ${totalAkTerkumpul.toFixed(2)}</strong></p><hr><p>Target Berikutnya: <strong>Pangkat ${targetPangkat}</strong></p><p>Syarat AK Tambahan: <strong>${akDibutuhkan}</strong></p>`;
+        
+        const [day, month, year] = tmtTerakhirInput.split('/');
+        const tmtTerakhir = new Date(`${year}-${month}-${day}`);
+        const tanggalSyaratWaktu = new Date(tmtTerakhir);
+        tanggalSyaratWaktu.setFullYear(tanggalSyaratWaktu.getFullYear() + 2);
+        const hariIni = new Date();
+
+        let estimasiPesan = '';
+        if (totalBulanKinerja > 0 && akBaru > 0 && kekurangan > 0) {
+            const akPerBulanRataRata = akBaru / totalBulanKinerja;
+            const bulanDibutuhkan = Math.ceil(kekurangan / akPerBulanRataRata);
+            const tanggalMulaiEstimasi = hariIni > tanggalSyaratWaktu ? hariIni : tanggalSyaratWaktu;
+            tanggalMulaiEstimasi.setMonth(tanggalMulaiEstimasi.getMonth() + bulanDibutuhkan);
+            const namaBulan = tanggalMulaiEstimasi.toLocaleString('id-ID', { month: 'long' });
+            const tahunProyeksi = tanggalMulaiEstimasi.getFullYear();
+            estimasiPesan = `<div class="notif estimasi">Dengan kinerja stabil, estimasi kenaikan ke <strong>Pangkat ${targetPangkat}</strong> dapat tercapai pada periode: <br><strong>${namaBulan} ${tahunProyeksi}</strong></div>`;
+        }
+
+        if (hariIni < tanggalSyaratWaktu) {
+            const tanggalPengajuanFormatted = tanggalSyaratWaktu.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+            pesan += `<div class="notif info"><strong>Syarat Waktu Belum Terpenuhi.</strong><br>Anda baru bisa mengajukan paling cepat pada <strong>${tanggalPengajuanFormatted}</strong>.</div>`;
+            pesan += estimasiPesan;
+        } else {
+            if (kekurangan <= 0) {
+                pesan += `<div class="notif sukses"><strong>Selamat!</strong> Anda sudah memenuhi syarat Angka Kredit dan Waktu untuk naik ke Pangkat ${targetPangkat}.<br>Kelebihan AK: <strong>${(-kekurangan).toFixed(2)}</strong></div>`;
+            } else {
+                pesan += `<div class="notif info">Anda masih membutuhkan <strong>${kekurangan.toFixed(2)}</strong> Angka Kredit lagi.</div>`;
+                pesan += estimasiPesan;
+            }
+        }
+        renderHasil(pesan);
+    });
+});

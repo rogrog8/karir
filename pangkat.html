@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Kenaikan Pangkat - Karir Dosen</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.3.4/dist/css/datepicker-bs5.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.3.4/dist/js/datepicker-full.min.js"></script>
+</head>
+<body>
+    <main>
+        <section id="kalkulator-pangkat">
+            <header>
+                <h1>Kalkulator Kenaikan Pangkat</h1>
+            </header>
+            <a href="index.html" class="btn-back" style="margin-bottom: 25px; display: inline-block;">← Kembali ke Menu Utama</a>
+
+            <section class="kalkulator-card">
+                <form id="form-pangkat">
+                    <div class="form-group">
+                        <label for="pangkat-sekarang">Pangkat/Golongan Saat Ini:</label>
+                        <select id="pangkat-sekarang" required></select>
+                    </div>
+
+                    <div id="validasi-jabatan" class="validasi-container hidden">
+                        <p id="validasi-pertanyaan"></p>
+                        <div class="validasi-buttons">
+                            <button type="button" id="btn-validasi-ya" class="btn-validasi ya">Ya</button>
+                            <button type="button" id="btn-validasi-tidak" class="btn-validasi tidak">Tidak</button>
+                        </div>
+                    </div>
+
+                    <div id="form-konten">
+                        <div class="form-group">
+                            <label for="tmt-terakhir">TMT Pangkat Terakhir:</label>
+                            <input type="text" id="tmt-terakhir" required placeholder="dd/mm/yyyy">
+                        </div>
+                        <div class="form-group">
+                            <label for="ak-saat-ini">Angka Kredit Saat Ini:</label>
+                            <input type="number" id="ak-saat-ini" value="0" step="0.01" required>
+                        </div>
+                        <h3>Perolehan Angka Kredit Baru (e-Kinerja)</h3>
+                        <div class="simulasi-header">
+                            <span>Tahun</span>
+                            <span>Periode</span>
+                            <span>Nilai</span>
+                        </div>
+                        <div id="riwayat-kinerja-container"></div>
+                        <button type="button" id="tambah-periode" class="btn-secondary">Tambah Periode Kinerja</button>
+                        <hr>
+                        <button type="submit" class="btn-primary">Hitung Estimasi Kenaikan Pangkat</button>
+                    </div>
+                </form>
+            </section>
+        </section>
+    </main>
+
+    <div id="modal-hasil-pangkat" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close-btn">&times;</button>
+            <div id="modal-output-pangkat"></div>
+        </div>
+    </div>
+
+    <div class="dark-mode-toggle" id="darkModeToggle">🌙</div>
+    
+    <script src="js/pangkat.js" defer></script>
+</body>
+</html>

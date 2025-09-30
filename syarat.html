@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Syarat Kenaikan Jabatan - Kalkulator Karir Dosen</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <main>
+        <header>
+            <h1>Syarat Kenaikan Jabatan</h1>
+        </header>
+        <a href="index.html" class="btn-back" style="margin-bottom: 25px; display: inline-block;">← Kembali ke Menu Utama</a>
+
+        <div class="syarat-container">
+            <div class="syarat-tabs">
+                <button class="syarat-tab-btn active" data-target="pengangkatan">Pengangkatan Pertama</button>
+                <button class="syarat-tab-btn" data-target="lektor">Lektor</button>
+                <button class="syarat-tab-btn" data-target="lk">Lektor Kepala</button>
+                <button class="syarat-tab-btn" data-target="profesor">Profesor</button>
+            </div>
+
+            <div class="syarat-content">
+                <div id="pengangkatan" class="syarat-pane active">
+                    <h4>Syarat Utama:</h4>
+                    <ul>
+                        <li>Memiliki ijazah Magister (S2) atau Doktor (S3).</li>
+                        <li>Memiliki pengalaman kerja sebagai dosen minimal 1 (satu) tahun.</li>
+                        <li>Memiliki karya ilmiah yang dipublikasikan sebagai <strong>penulis pertama</strong> di Jurnal Nasional Terakreditasi, Prosiding Internasional, atau Jurnal Internasional.</li>
+                    </ul>
+                </div>
+
+                <div id="lektor" class="syarat-pane">
+                    <h4>Syarat Publikasi:</h4>
+                    <ul>
+                        <li>Memiliki karya ilmiah yang dipublikasikan di Jurnal Nasional Terakreditasi atau Jurnal Internasional (bereputasi maupun tidak) sebagai <strong>penulis pertama</strong>.</li>
+                    </ul>
+                    <h4>Syarat Kepangkatan (Dosen PNS):</h4>
+                    <ul>
+                        <li>Untuk kenaikan dari Asisten Ahli, pangkat/golongan minimal III/b.</li>
+                    </ul>
+                </div>
+
+                <div id="lk" class="syarat-pane">
+                    <h4>Syarat Publikasi (Pilih salah satu):</h4>
+                    <ul>
+                        <li><strong>1 karya ilmiah</strong> di Jurnal Nasional Terakreditasi (SINTA 1 atau 2) sebagai <strong>penulis pertama</strong>.</li>
+                        <li><strong>2 karya ilmiah</strong> di Jurnal Internasional Terindeks sebagai <strong>penulis pertama</strong>.</li>
+                        <li>Hasil karya seni yang diakui secara nasional.</li>
+                    </ul>
+                     <h4>Syarat Kepangkatan (Dosen PNS):</h4>
+                    <ul>
+                        <li>Untuk kenaikan dari Lektor, pangkat/golongan minimal III/d.</li>
+                    </ul>
+                    <h4>Catatan Penting Penilaian:</h4>
+                    <ul>
+                        <li>Menyertakan bukti proses korespondensi artikel. 
+                            <a href="https://drive.google.com/file/d/1BIMEywlKc77cS7rVsWivPwX53DEE-TVp/view" target="_blank" rel="noopener noreferrer" class="link-info">(Lihat Contoh)</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div id="profesor" class="syarat-pane">
+                     <h4>Syarat Utama:</h4>
+                     <ul>
+                        <li>Memiliki masa kerja minimal 10 tahun sejak jabatan akademik pertama.</li>
+                        <li>Memiliki <strong>1 karya ilmiah</strong> di Jurnal Internasional Bereputasi (SJR >0.10 atau JIF >0.05) sebagai <strong>penulis pertama</strong>.</li>
+                        <li>Memenuhi <strong>satu Syarat Khusus Tambahan</strong> dari daftar di bawah ini.</li>
+                     </ul>
+                     <h4>Syarat Kepangkatan (Dosen PNS):</h4>
+                    <ul>
+                        <li>Untuk kenaikan dari Lektor Kepala, pangkat/golongan minimal IV/a, IV/b, atau IV/c.</li>
+                    </ul>
+                     <h4>Syarat Khusus Tambahan (Pilih salah satu):</h4>
+                     <ul>
+                        <li>Mendapat hibah penelitian kompetitif sebagai <strong>Ketua</strong>.</li>
+                        <li>Membimbing program Doktor (S3).</li>
+                        <li>Menguji minimal 3 mahasiswa disertasi.</li>
+                        <li>Menjadi *reviewer* minimal 2 jurnal internasional bereputasi.</li>
+                     </ul>
+                     <h4>Catatan Penting Penilaian:</h4>
+                    <ul>
+                        <li>Menyertakan bukti proses korespondensi artikel. 
+                            <a href="https://drive.google.com/file/d/1BIMEywlKc77cS7rVsWivPwX53DEE-TVp/view" target="_blank" rel="noopener noreferrer" class="link-info">(Lihat Contoh)</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="dark-mode-toggle" id="darkModeToggle">🌙</div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // (JavaScript Anda tetap sama di sini)
+            const body = document.body;
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                body.classList.add('dark-mode');
+                darkModeToggle.innerHTML = '☀️';
+            }
+            darkModeToggle.addEventListener('click', () => {
+                body.classList.toggle('dark-mode');
+                if (body.classList.contains('dark-mode')) {
+                    localStorage.setItem('theme', 'dark');
+                    darkModeToggle.innerHTML = '☀️';
+                } else {
+                    localStorage.setItem('theme', 'light');
+                    darkModeToggle.innerHTML = '🌙';
+                }
+            });
+            const tabButtons = document.querySelectorAll('.syarat-tab-btn');
+            const tabPanes = document.querySelectorAll('.syarat-pane');
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetId = button.getAttribute('data-target');
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    tabPanes.forEach(pane => pane.classList.remove('active'));
+                    button.classList.add('active');
+                    document.getElementById(targetId).classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
