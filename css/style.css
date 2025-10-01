@@ -180,6 +180,100 @@ a.menu-button, button.menu-button {
     text-align: center;
     margin-top: 20px;
 }
+/* ================================== */
+/* Gaya Baru untuk Dasar Peraturan    */
+/* ================================== */
+.regulasi-container {
+    max-width: 400px;
+    margin: 40px auto 0 auto;
+    position: relative; /* Diperlukan untuk efek latar belakang */
+    padding: 20px;
+    text-align: left;
+}
+
+/* Membuat latar belakang berwarna di belakang kotak utama */
+.regulasi-container::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: 5px;
+    bottom: 5px;
+    background-color: var(--bg-secondary);
+    border-radius: 12px;
+    z-index: -1; /* Posisikan di belakang konten */
+    transition: all 0.3s ease;
+}
+
+/* Gaya untuk bingkai tipis di depan */
+.regulasi-container-inner {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 15px 20px;
+    background-color: var(--card-bg);
+}
+
+.regulasi-container h4 {
+    margin: 0 0 10px 0;
+    font-size: 0.9em;
+    font-weight: 600;
+    color: var(--text-light);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 8px;
+}
+
+.regulasi-container ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 0.8em;
+    font-weight: 500;
+}
+
+.regulasi-container li {
+    padding: 4px 0;
+}
+
+/* ================================== */
+/* Gaya Final untuk Tombol Donasi     */
+/* ================================== */
+
+/* Wadah untuk menengahkan tombol */
+.donasi-wrapper {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Mengubah tombol menjadi elemen inline-block */
+.btn-donasi {
+    display: inline-block;
+    background-color: transparent;
+    border: none;
+    text-decoration: none;
+    cursor: pointer;
+    text-align: center;
+    color: var(--text-light);
+    transition: transform 0.2s ease;
+}
+
+.btn-donasi:hover {
+    transform: scale(1.1);
+}
+
+/* Mengatur ikon donasi */
+.donasi-icon {
+    width: 100px;
+    height: 50px;
+    display: block;
+    margin: 0 auto 5px auto; /* Otomatis tengahkan ikon */
+}
+
+/* Mengatur teks donasi */
+.donasi-text {
+    display: block; /* Membuat teks berada di baris baru */
+    font-size: 0.8em;
+    font-weight: 500;
+}
 
 /* Animasi untuk header */
 @keyframes gradient-shine {
@@ -343,6 +437,47 @@ input[type="number"]:focus, select:focus {
 footer {
     width: 100%; text-align: center; padding: 20px 0; margin-top: 30px;
     color: var(--text-light); font-size: 0.9em;
+}
+/* ================================== */
+/* Gaya Dark Mode untuk Datepicker    */
+/* ================================== */
+body.dark-mode .datepicker-picker {
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+}
+body.dark-mode .datepicker-header .datepicker-controls button {
+    color: var(--text-color);
+    border-color: transparent;
+}
+/* ↓↓↓ TAMBAHKAN ATURAN BARU INI ↓↓↓ */
+body.dark-mode .datepicker-header .datepicker-controls .view-switch {
+    color: var(--text-color);
+}
+body.dark-mode .datepicker-header .datepicker-controls button:hover {
+    background-color: var(--bg-secondary);
+}
+body.dark-mode .dow,
+body.dark-mode .day.disabled,
+body.dark-mode .day.next,
+body.dark-mode .day.prev {
+    color: var(--text-light);
+}
+body.dark-mode .day {
+    color: var(--text-color);
+}
+body.dark-mode .day:not(.selected):hover {
+    background-color: var(--bg-secondary);
+}
+body.dark-mode .day.selected,
+body.dark-mode .day.focused {
+    background-color: var(--accent-color);
+    color: var(--btn-primary-text);
+}
+body.dark-mode .datepicker-footer button {
+    color: var(--text-color);
+}
+body.dark-mode .datepicker-footer button:hover {
+    background-color: var(--bg-secondary);
 }
 
 /* ================================================= */

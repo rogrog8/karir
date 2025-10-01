@@ -112,25 +112,55 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function renderHasilSimulasi(hasil) {
-        const modalOutput = document.getElementById('modal-output');
-        if (!modalOutput) return;
-        if (hasil.error) {
-            modalOutput.innerHTML = `<p style="color: red;">Error: ${hasil.error}</p>`;
-        } else {
-            const formatNumber = (num) => parseFloat(num.toFixed(3));
-            let htmlJenjang = '<h4>Analisis Kenaikan Jabatan</h4>';
-            if (hasil.kebutuhanAkJenjang !== null) {
-                const kekuranganJenjang = hasil.kebutuhanAkJenjang - hasil.akBaruTerkumpul;
-                htmlJenjang += `<p>Target: <strong>Naik ke ${hasil.targetJenjang}</strong></p><p>Syarat AK Tambahan: <strong>${formatNumber(hasil.kebutuhanAkJenjang)}</strong></p><div class="notif ${kekuranganJenjang <= 0 ? 'sukses' : 'info'}">Kekurangan AK: <strong>${formatNumber(kekuranganJenjang > 0 ? kekuranganJenjang : 0)}</strong><br>Status: ${kekuranganJenjang <= 0 ? 'Memenuhi Syarat' : 'Belum Memenuhi Syarat'}</div>`;
-                if (hasil.estimasi.pesan) { htmlJenjang += `<div class="notif estimasi">${hasil.estimasi.pesan}</div>`; }
-            } else {
-                htmlJenjang += '<p>Anda sudah berada di jenjang jabatan puncak.</p>';
+    const modalOutput = document.getElementById('modal-output');
+    if (!modalOutput) return;
+    if (hasil.error) {
+        modalOutput.innerHTML = `<p style="color: red;">Error: ${hasil.error}</p>`;
+    } else {
+        const formatNumber = (num) => parseFloat(num.toFixed(3));
+        let htmlJenjang = '<h4>Analisis Kenaikan Jabatan</h4>';
+
+        // Logika utama dimulai di sini
+        if (hasil.kebutuhanAkJenjang !== null) {
+            const kekuranganJenjang = hasil.kebutuhanAkJenjang - hasil.akBaruTerkumpul;
+            
+            // Menampilkan Target, Syarat AK, dan Status Kekurangan (kode Anda yang sudah ada)
+            htmlJenjang += `<p>Target: <strong>Naik ke ${hasil.targetJenjang}</strong></p><p>Syarat AK Tambahan: <strong>${formatNumber(hasil.kebutuhanAkJenjang)}</strong></p><div class="notif ${kekuranganJenjang <= 0 ? 'sukses' : 'info'}">Kekurangan AK: <strong>${formatNumber(kekuranganJenjang > 0 ? kekuranganJenjang : 0)}</strong><br>Status: ${kekuranganJenjang <= 0 ? 'Memenuhi Syarat' : 'Belum Memenuhi Syarat'}</div>`;
+
+            // ================================================================
+            // ▼▼▼ KODE BARU UNTUK ANALISIS SKENARIO DITAMBAHKAN DI SINI ▼▼▼
+            // ================================================================
+            if (hasil.analisisSkenario && hasil.analisisSkenario.pesan) {
+                htmlJenjang += `<div class="notif info" style="margin-top: 10px;">${hasil.analisisSkenario.pesan}</div>`;
             }
-            let html = `<h2>Analisis Simulasi Karir</h2><div class="rincian-ak"><p>+ AK Integrasi: <strong>${formatNumber(hasil.akIntegrasi)}</strong></p><p>+ AK dari Ijazah Baru: <strong>${formatNumber(hasil.akDariIjazah)}</strong></p><p>+ AK dari Konversi (Kinerja): <strong>${formatNumber(hasil.akDariKonversi)}</strong></p><hr><p><strong>Total AK Baru Terkumpul: ${formatNumber(hasil.akBaruTerkumpul)}</strong></p></div><div class="kartu-analisis">${htmlJenjang}</div><p style="font-size: 0.8em; color: var(--text-light); margin-top: 15px; text-align: center;">(Total Angka Kredit Kumulatif Anda sekarang adalah ${formatNumber(hasil.totalAkKumulatif)})</p>`;
-            modalOutput.innerHTML = html;
+            
+            // Menampilkan estimasi waktu kenaikan (kode Anda yang sudah ada)
+            if (hasil.estimasi.pesan) { 
+                htmlJenjang += `<div class="notif estimasi">${hasil.estimasi.pesan}</div>`; 
+            }
+
+        } else {
+            // Ini hanya berjalan jika sudah di jenjang puncak
+            htmlJenjang += '<p>Anda sudah berada di jenjang jabatan puncak.</p>';
         }
-        openModalHasil();
+
+        // Bagian ini menyusun sisa tampilan modal (kode Anda yang sudah ada)
+        let html = `<h2>Analisis Simulasi Karir</h2><div class="rincian-ak"><p>+ AK Integrasi: <strong>${formatNumber(hasil.akIntegrasi)}</strong></p><p>+ AK dari Ijazah Baru: <strong>${formatNumber(hasil.akDariIjazah)}</strong></p><p>+ AK dari Konversi (Kinerja): <strong>${formatNumber(hasil.akDariKonversi)}</strong></p>`;
+        
+        if (hasil.rincianKonversi && hasil.rincianKonversi.length > 0) {
+            html += `<ul style="font-size: 0.8em; margin-left: 20px; color: var(--text-light); list-style-type: '▸ '; padding-left: 15px; margin-top: 5px;">`;
+            hasil.rincianKonversi.forEach(rincian => {
+                html += `<li>${rincian}</li>`;
+            });
+            html += `</ul>`;
+        }
+
+        html += `<hr><p><strong>Total AK Baru Terkumpul: ${formatNumber(hasil.akBaruTerkumpul)}</strong></p></div><div class="kartu-analisis">${htmlJenjang}</div><p style="font-size: 0.8em; color: var(--text-light); margin-top: 15px; text-align: center;">(Total Angka Kredit Kumulatif Anda sekarang adalah ${formatNumber(hasil.totalAkKumulatif)})</p>`;
+        
+        modalOutput.innerHTML = html;
     }
+    openModalHasil();
+}
 
     // ================================================================
     //             INISIALISASI & EVENT LISTENERS

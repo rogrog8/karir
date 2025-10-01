@@ -31,11 +31,17 @@ function hitungSimulasiKarir(data) {
     let akDariIjazah = ijazahBaru ? 0.25 * aturan.syaratAkKenaikanPangkat : 0;
     
     let akDariKonversi = 0;
-    riwayatKinerja.forEach(item => {
-        const pengali = KONVERSI_KINERJA[item.predikat] || 0;
-        akDariKonversi += (item.bulan / 12) * pengali * aturan.koefisien;
-    });
+    let rincianKonversi = [];
 
+// Tambahkan forEach loop yang hilang ini
+    data.riwayatKinerja.forEach(item => {
+    const pengali = KONVERSI_KINERJA[item.predikat] || 0;
+    const akPerItem = (item.bulan / 12) * pengali * aturan.koefisien;
+    akDariKonversi += akPerItem;
+
+    const rincianTeks = `Tahun ${item.tahun} (${item.predikat}): (${item.bulan}/12) x ${pengali.toFixed(2)} x ${aturan.koefisien} = ${akPerItem.toFixed(3)} AK`;
+    rincianKonversi.push(rincianTeks);
+    });
     const akBaruTerkumpul = akIntegrasi + akDariIjazah + akDariKonversi;
     const totalAkKumulatif = akMinimalWajib + akBaruTerkumpul;
     const akSejakPangkatTerakhir = totalAkKumulatif - akMinimalWajib;
@@ -96,6 +102,29 @@ function hitungSimulasiKarir(data) {
         estimasi.pesan = "Kinerja konversi terakhir tidak menghasilkan Angka Kredit, estimasi tidak dapat dihitung.";
     }
     }
+// ================================================================
+// ▼▼▼ LETAKKAN BLOK KODE BARU INI SEBELUM 'RETURN' ▼▼▼
+// ================================================================
+
+let analisisSkenario = { pesan: null };
+// Analisis skenario hanya berjalan jika ada kekurangan AK untuk jenjang berikutnya
+if (kebutuhanAkJenjang && kekuranganJenjang > 0 && aturan.koefisien > 0) {
+    // Hitung perolehan AK per tahun untuk skenario 'Baik'
+    const akPerTahunBaik = KONVERSI_KINERJA["Baik"] * aturan.koefisien;
+    const tahunDibutuhkanBaik = kekuranganJenjang / akPerTahunBaik;
+
+    // Hitung perolehan AK per tahun untuk skenario 'Sangat Baik'
+    const akPerTahunSangatBaik = KONVERSI_KINERJA["Sangat Baik"] * aturan.koefisien;
+    const tahunDibutuhkanSangatBaik = kekuranganJenjang / akPerTahunSangatBaik;
+
+    // Buat pesan HTML untuk ditampilkan
+    analisisSkenario.pesan = `
+        <p style="margin-bottom: 5px; margin-top:0;">Untuk mencapai target <strong>${targetJenjang}</strong>, Anda perlu:</p>
+        <ul style="margin: 0; padding-left: 20px; text-align: left;">
+            <li>Sekitar <strong>${tahunDibutuhkanBaik.toFixed(1)} tahun</strong> lagi dengan predikat 'Baik' secara konsisten.</li>
+            <li>Atau, sekitar <strong>${tahunDibutuhkanSangatBaik.toFixed(1)} tahun</strong> lagi jika Anda bisa mencapai predikat 'Sangat Baik'.</li>
+        </ul>`;
+}
 
 return {
         jenjang, // <-- TAMBAHKAN BARIS INI
@@ -103,6 +132,7 @@ return {
         akIntegrasi,
         akDariIjazah,
         akDariKonversi,
+        rincianKonversi, // <-- TAMBAHKAN BARIS INI
         akBaruTerkumpul,
         totalAkKumulatif,
         targetPangkat,
@@ -112,7 +142,8 @@ return {
         targetJenjang,
         kebutuhanAkJenjang,
         kekuranganJenjang: kekuranganJenjang > 0 ? kekuranganJenjang : 0,
-        estimasi
+        estimasi,
+        analisisSkenario // <-- TAMBAHKAN BARIS INI
     };
 }
 
