@@ -15,38 +15,95 @@
         </header>
         <a href="index.html" class="btn-back" style="margin-bottom: 25px; display: inline-block;">← Kembali ke Menu Utama</a>
 
+        <div class="kalkulator-card" style="border-left: 5px solid var(--blue-info);">
+            <h4>Selamat Datang di Kalkulator Karir Dosen!</h4>
+            <p style="margin: 0;">Aplikasi ini dirancang untuk membantu Anda, para dosen, dalam merencanakan dan mensimulasikan kenaikan jenjang jabatan fungsional dan pangkat/golongan berdasarkan peraturan terbaru. Semua data yang Anda masukkan akan **tersimpan otomatis di browser Anda**, sehingga Anda bisa melanjutkannya kapan saja.</p>
+        </div>
+
         <div class="syarat-container">
             <div class="syarat-tabs">
-                <button class="syarat-tab-btn active" data-target="panduan-jenjang">Kalkulator Jenjang</button>
-                <button class="syarat-tab-btn" data-target="panduan-pangkat">Kalkulator Pangkat</button>
+                <button class="syarat-tab-btn active" data-target="panduan-jenjang">Panduan Kalkulator Jenjang</button>
+                <button class="syarat-tab-btn" data-target="panduan-pangkat">Panduan Kalkulator Pangkat</button>
             </div>
 
             <div class="syarat-content">
                 <div id="panduan-jenjang" class="syarat-pane active">
-                    <h4>Panduan Kalkulator Jenjang Jabatan</h4>
-                    <p>Gunakan kalkulator ini untuk mensimulasikan kenaikan Jabatan Fungsional Anda (misal: dari Lektor ke Lektor Kepala).</p>
+                    <h4>Kalkulator Jenjang Jabatan</h4>
+                    <p>Gunakan kalkulator ini untuk mensimulasikan kenaikan <strong>Jabatan Fungsional</strong> Anda (misal: dari Lektor ke Lektor Kepala).</p>
+                    
+                    <h5>Langkah-langkah Penggunaan:</h5>
                     <ol>
-                        <li><strong>Jabatan & Pangkat Saat Ini:</strong> Pilih jabatan dan pangkat Anda saat ini.</li>
-                        <li><strong>Tanggal Kenaikan Jabatan Terakhir:</strong> Masukkan tanggal Anda terakhir kali menerima SK Jabatan Fungsional. Perhitungan kinerja (Angka Kredit Konversi) hanya akan dihitung mulai dari tahun tersebut.</li>
-                        <li><strong>Ijazah Baru:</strong> Centang jika Anda memperoleh ijazah (S2/S3) yang lebih tinggi setelah kenaikan jabatan terakhir.</li>
-                        <li><strong>Angka Kredit Integrasi:</strong> Masukkan nilai AK dari konvensional (sebelum 2023) yang belum pernah digunakan untuk kenaikan jabatan. Kosongkan jika sudah pernah dipakai.</li>
-                        <li><strong>Angka Kredit Konversi:</strong> Klik "Tambah Periode Simulasi" untuk menambahkan riwayat penilaian e-kinerja Anda. Kalkulator akan otomatis menghitung AK berdasarkan predikat dan periode penilaian.</li>
-                        <li>Klik "Hitung" untuk melihat analisis dan estimasi kenaikan jenjang Anda.</li>
+                        <li><strong>Isi Data Diri:</strong> Masukkan nama Anda untuk personalisasi hasil, lalu pilih Jabatan Fungsional dan Pangkat/Golongan Anda saat ini.</li>
+                        <li><strong>Isi Tanggal Kenaikan Jabatan Terakhir:</strong> Ini adalah tanggal TMT pada SK Jabatan Fungsional terakhir Anda. Tanggal ini menjadi titik awal perhitungan Angka Kredit (AK) baru Anda.</li>
+                        <li><strong>Angka Kredit Integrasi:</strong> Masukkan nilai AK dari sistem lama (sebelum 2023) yang belum pernah digunakan untuk kenaikan jabatan. Kosongkan jika tidak ada atau sudah pernah dipakai.</li>
+                        <li><strong>Menambah Periode Kinerja (e-Kinerja):</strong>
+                            <ul>
+                                <li>Klik tombol <strong>"Tambah Periode"</strong>. Sebuah pop-up akan muncul.</li>
+                                <li>Isi Tahun, Periode Penilaian (Tahunan, Semester, dll.), dan Nilai/Predikat di dalam pop-up, lalu klik "Simpan Periode".</li>
+                                <li>Data yang Anda simpan tidak akan langsung muncul di halaman utama, ini untuk menjaga tampilan tetap bersih.</li>
+                                <li>Setelah data ditambahkan, tombol <strong>"Lihat Konversi"</strong> akan muncul. Klik tombol ini untuk melihat, memeriksa, dan menghapus daftar periode kinerja yang sudah Anda masukkan dalam format tabel yang rapi.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Lihat Hasil Perhitungan:</strong>
+                            <ul>
+                                <li>Jika ini pertama kali Anda menghitung, tombolnya adalah <strong>"Hitung Simulasi Karir"</strong>.</li>
+                                <li>Jika Anda sudah pernah menghitung dan datanya tersimpan, tombolnya akan berwarna hijau dengan tulisan <strong>"Lihat Perhitungan Tersimpan"</strong>. Cukup klik tombol ini untuk melihat kembali hasil simulasi terakhir Anda.</li>
+                            </ul>
+                        </li>
                     </ol>
+
+                    <h5>Memahami Hasil Simulasi:</h5>
+                    <ul>
+                        <li><strong>Judul Personalisasi:</strong> Judul pop-up akan menyapa Anda sesuai nama yang diinput.</li>
+                        <li><strong>Rincian AK:</strong> Menampilkan rincian perolehan AK baru Anda, termasuk detail perhitungan per tahun dari e-Kinerja.</li>
+                        <li><strong>Progress Bar:</strong> Visualisasi progres pemenuhan syarat AK, lengkap dengan persentase.</li>
+                        <li><strong>Analisis Skenario:</strong> Jika AK belum cukup, fitur ini akan memberikan proyeksi berapa lama lagi waktu yang dibutuhkan untuk memenuhi syarat dengan predikat "Baik" atau "Sangat Baik".</li>
+                    </ul>
                 </div>
 
                 <div id="panduan-pangkat" class="syarat-pane">
-                     <h4>Panduan Kalkulator Kenaikan Pangkat</h4>
-                     <p>Gunakan kalkulator ini untuk mensimulasikan kenaikan Pangkat/Golongan Anda (misal: dari III/c ke III/d).</p>
+                     <h4>Kalkulator Kenaikan Pangkat</h4>
+                     <p>Gunakan kalkulator ini untuk mensimulasikan kenaikan <strong>Pangkat/Golongan</strong> Anda (misal: dari III/c ke III/d).</p>
+
+                     <h5>Langkah-langkah Penggunaan:</h5>
                      <ol>
-                        <li><strong>Pangkat/Golongan Saat Ini:</strong> Pilih pangkat Anda saat ini.</li>
-                        <li><strong>Validasi Jabatan:</strong> Jika muncul pertanyaan validasi, jawab "Ya" jika Anda sudah memiliki Jabatan Fungsional yang disyaratkan untuk kenaikan pangkat tersebut.</li>
-                        <li><strong>TMT Pangkat Terakhir:</strong> Masukkan tanggal TMT pada SK Pangkat terakhir Anda. Kenaikan pangkat baru bisa diajukan minimal 2 tahun setelah tanggal ini.</li>
-                        <li><strong>Perolehan Angka Kredit Baru:</strong> Klik "Tambah Periode Kinerja" dan masukkan riwayat e-kinerja Anda sejak TMT terakhir. Perhitungan dimulai dari nol sejak TMT terakhir.</li>
-                        <li>Klik "Hitung" untuk melihat analisis pemenuhan syarat AK dan waktu, beserta estimasi kenaikan pangkat Anda berikutnya.</li>
+                        <li><strong>Isi Data Diri & Pangkat:</strong> Masukkan nama dan pilih Pangkat/Golongan Anda saat ini.</li>
+                        <li><strong>Validasi Jabatan:</strong> Jika pangkat yang Anda pilih memerlukan syarat Jabatan Fungsional tertentu (misal: untuk ke III/c perlu Lektor), sebuah kotak validasi akan muncul. Jawab "Ya" jika Anda sudah memenuhinya untuk melanjutkan.</li>
+                        <li><strong>Isi TMT Pangkat Terakhir:</strong> Masukkan tanggal TMT pada SK Pangkat terakhir. Kenaikan pangkat baru bisa diajukan minimal 2 tahun setelah tanggal ini.</li>
+                        <li><strong>Menambah Periode Kinerja (e-Kinerja):</strong>
+                            <ul>
+                                <li>Prosesnya sama persis seperti di Kalkulator Jenjang. Gunakan tombol <strong>"Tambah Periode"</strong> dan <strong>"Lihat Periode"</strong> untuk mengelola data kinerja Anda melalui sistem pop-up.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Lihat Hasil Perhitungan:</strong> Klik tombol <strong>"Hitung Estimasi"</strong> atau <strong>"Lihat Perhitungan Tersimpan"</strong> (jika data sudah ada) untuk melihat hasilnya.</li>
                      </ol>
+
+                     <h5>Memahami Hasil Simulasi:</h5>
+                    <ul>
+                        <li><strong>Analisis Pemenuhan Syarat:</strong> Hasilnya akan menampilkan status pemenuhan syarat AK dan syarat waktu (minimal 2 tahun) secara terpisah.</li>
+                        <li><strong>Fitur Lengkap:</strong> Sama seperti Kalkulator Jenjang, hasilnya juga dilengkapi Rincian AK, Progress Bar, dan Analisis Skenario untuk membantu perencanaan Anda.</li>
+                    </ul>
                 </div>
             </div>
+        </div>
+
+        <div class="kalkulator-card" style="margin-top: 30px;">
+            <h4 style="margin-top: 0;">Fitur Tambahan & Pertanyaan Umum (FAQ)</h4>
+            
+            <h5>Penyimpanan Data Otomatis</h5>
+            <p>Setiap kali Anda menekan tombol "Hitung", semua data yang Anda masukkan (nama, pangkat, TMT, dan riwayat kinerja) akan disimpan secara otomatis di browser Anda. Saat Anda membuka kembali aplikasi ini, data akan termuat kembali. Untuk memulai dari awal, gunakan tombol <strong>"Reset Data Tersimpan"</strong>.</p>
+
+            <h5>Validasi Input Real-time</h5>
+            <p>Aplikasi ini memiliki sistem validasi untuk mencegah kesalahan. Anda tidak bisa:</p>
+            <ul>
+                <li>Menambah periode kinerja sebelum mengisi tanggal TMT.</li>
+                <li>Menambah periode untuk tahun masa depan.</li>
+                <li>Menambah periode untuk tahun sebelum TMT Anda.</li>
+                <li>Menambah total durasi periode lebih dari 12 bulan dalam satu tahun (misal: 1 Semester + 3 Triwulan).</li>
+            </ul>
+
+             <h5>Mengapa data saya tidak muncul di perangkat lain?</h5>
+            <p>Data disimpan secara lokal di masing-masing browser (menggunakan `localStorage`). Data yang Anda masukkan di laptop tidak akan muncul di HP Anda, begitu juga sebaliknya. Ini untuk menjaga privasi data Anda.</p>
         </div>
     </main>
 
