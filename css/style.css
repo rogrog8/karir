@@ -71,7 +71,41 @@ header h1 {
 #main-menu .menu-header {
     margin-bottom: 30px;
 }
+/* Gaya untuk Bingkai Kaca Buram di Header */
+.header-title-frame {
+    display: inline-block; /* Membuat bingkai pas dengan kontennya */
+    background: rgba(0, 0, 0, 0.25); /* Latar belakang hitam semi-transparan */
+    backdrop-filter: blur(8px); /* EFEK KACA BURAM */
+    -webkit-backdrop-filter: blur(8px); /* Untuk browser Safari */
+    padding: 9px 20px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.18); /* Garis tepi putih transparan */
+}
+/* Ubah .app-title yang lama dengan ini */
+.app-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2em;
+    font-weight: 700;
+    color: #FFFFFF; /* GANTI WARNA MENJADI PUTIH */
+    margin: 0;
+    letter-spacing: 2px;
+    /* text-shadow bisa dihapus atau disesuaikan */
+}
 
+/* Ubah .app-tagline yang lama dengan ini */
+.app-tagline {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.8em;
+    color: rgba(255, 255, 255, 0.85); /* GANTI WARNA MENJADI PUTIH SEMI-TRANSPARAN */
+    margin: 0;
+    margin-top: -10px;
+    letter-spacing: 1px;
+}
+
+/* Sedikit penyesuaian pada wrapper header */
+#main-menu .menu-header {
+    margin-bottom: 40px; /* Beri jarak lebih ke bawah */
+}
 
 /* Bingkai mewah untuk tombol menu */
 .menu-frame {
