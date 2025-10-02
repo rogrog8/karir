@@ -348,10 +348,16 @@ h3 {
 }
 .form-group { margin-bottom: 20px; }
 label { display: block; margin-bottom: 8px; font-weight: 500; }
-input[type="number"], select {
-    width: 100%; padding: 10px 12px; border: 1px solid var(--border-color); border-radius: 8px;
-    box-sizing: border-box; background-color: var(--bg-secondary); color: var(--text-color);
-    font-size: 1em; transition: all 0.2s ease;
+input[type="number"], input[type="text"], select {
+    width: 100%; 
+    padding: 10px 12px; 
+    border: 1px solid var(--border-color); 
+    border-radius: 8px;
+    box-sizing: border-box; 
+    background-color: var(--bg-secondary); 
+    color: var(--text-color);
+    font-size: 1em; 
+    transition: all 0.2s ease;
 }
 input[type="number"]:focus, select:focus {
     border-color: var(--accent-color); outline: none; box-shadow: 0 0 0 3px rgba(139, 233, 253, 0.3);
@@ -368,6 +374,17 @@ input[type="number"]:focus, select:focus {
 }
 .btn-primary:hover { background-color: var(--accent-color); color: var(--btn-primary-text); }
 .btn-secondary { background-color: var(--bg-secondary); color: var(--accent-color); border: 1px solid var(--border-color); }
+/* Di dalam file css/style.css */
+.btn-saved {
+    background-color: var(--green-success) !important;
+    border-color: var(--green-success) !important;
+    color: var(--btn-primary-text) !important;
+}
+
+.btn-saved:hover {
+    opacity: 0.9;
+}
+
 .integrasi-row { display: grid; grid-template-columns: 100px 1fr; gap: 15px; align-items: center; }
 .simulasi-header {
     display: grid; grid-template-columns: 80px 1fr 1fr 40px; gap: 15px; font-weight: 600;
@@ -761,4 +778,72 @@ body.dark-mode .datepicker-footer button:hover {
     font-size: 0.75em; /* Samakan ukuran font judul */
     line-height: 1.2;
 }
+/* Sembunyikan daftar periode di halaman utama */
+#riwayat-kinerja-container,
+.simulasi-header {
+    display: none;
+}
+}
+/* ================================== */
+/* Gaya untuk Tabel Daftar Kinerja      */
+/* ================================== */
+
+.kinerja-table-wrapper {
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    margin-top: 15px;
+}
+
+.kinerja-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.kinerja-table th,
+.kinerja-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--border-color);
+    vertical-align: middle; /* Pastikan konten di tengah secara vertikal */
+}
+
+.kinerja-table thead th {
+    background-color: var(--bg-primary);
+    font-weight: 600;
+    font-size: 0.9em;
+    color: var(--text-light);
+    position: sticky;
+    top: 0;
+}
+
+.kinerja-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Efek Zebra-striping */
+.kinerja-table tbody tr:nth-child(even) {
+    background-color: var(--bg-primary);
+}
+
+.kinerja-table .btn-hapus-tabel {
+    background: none;
+    border: none;
+    color: var(--red-error);
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    opacity: 0.7;
+    transition: all 0.2s ease;
+}
+
+.kinerja-table .btn-hapus-tabel:hover {
+    opacity: 1;
+    transform: scale(1.2);
+}
+/* Kelas untuk memastikan modal tampil di lapisan paling atas */
+.modal-prioritas {
+    z-index: 1001; /* Lebih tinggi dari z-index modal biasa (1000) */
 }

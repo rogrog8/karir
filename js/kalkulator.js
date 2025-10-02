@@ -127,6 +127,7 @@ if (kebutuhanAkJenjang && kekuranganJenjang > 0 && aturan.koefisien > 0) {
 }
 
 return {
+        nama: data.nama, // <-- TAMBAHKAN BARIS INI
         jenjang, // <-- TAMBAHKAN BARIS INI
         pangkat, // <-- TAMBAHKAN BARIS INI
         akIntegrasi,

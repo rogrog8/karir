@@ -8,9 +8,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.3.4/dist/css/datepicker-bs5.min.css">
     <link rel="stylesheet" href="css/style.css">
-    <script src="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.3.4/dist/js/datepicker-full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.3.4/dist/js/datepicker-full.min.js" defer></script>
 </head>
-<body>
+<body id="page-pangkat">
     <main>
         <section id="kalkulator-pangkat">
             <header>
@@ -20,6 +20,10 @@
 
             <section class="kalkulator-card">
                 <form id="form-pangkat">
+                    <div class="form-group">
+                        <label for="nama-dosen-pangkat">Nama Dosen:</label>
+                        <input type="text" id="nama-dosen-pangkat" placeholder="Masukkan nama lengkap Anda...">
+                    </div>
                     <div class="form-group">
                         <label for="pangkat-sekarang">Pangkat/Golongan Saat Ini:</label>
                         <select id="pangkat-sekarang" required></select>
@@ -39,15 +43,13 @@
                             <input type="text" id="tmt-terakhir" required placeholder="dd/mm/yyyy">
                         </div>
                         <h3>Perolehan Angka Kredit Baru (e-Kinerja)</h3>
-                        <div class="simulasi-header">
-                            <span>Tahun</span>
-                            <span>Periode</span>
-                            <span>Nilai</span>
+                        <div style="display: flex; gap: 10px; margin-top: 15px;">
+                            <button type="button" id="tambah-periode-pangkat" class="btn-secondary" style="flex: 1; margin: 0;">Tambah Periode</button>
+                            <button type="button" id="lihat-periode-pangkat" class="btn-primary hidden" style="flex: 1; margin: 0;">Lihat Periode</button>
                         </div>
-                        <div id="riwayat-kinerja-container"></div>
-                        <button type="button" id="tambah-periode" class="btn-secondary">Tambah Periode Kinerja</button>
                         <hr>
-                        <button type="submit" class="btn-primary">Hitung Estimasi Kenaikan Pangkat</button>
+                        <button type="submit" class="btn-primary">Hitung Estimasi</button>
+                        <button type="button" id="btn-reset-pangkat" class="btn-secondary" style="margin-top: 10px; background-color: var(--red-error); color: white;">Reset Data</button>
                     </div>
                 </form>
             </section>
@@ -55,14 +57,36 @@
     </main>
 
     <div id="modal-hasil-pangkat" class="modal-overlay">
+        <div class="modal-content"><button class="modal-close-btn">&times;</button><div id="modal-output-pangkat"></div></div>
+    </div>
+    
+    <div id="modal-tambah-periode-pangkat" class="modal-overlay">
         <div class="modal-content">
             <button class="modal-close-btn">&times;</button>
-            <div id="modal-output-pangkat"></div>
+            <h4>Tambah Periode Kinerja</h4>
+            <div class="form-group"><label for="input-tahun-modal-pangkat">Tahun:</label><input type="number" id="input-tahun-modal-pangkat"></div>
+            <div class="form-group"><label for="select-periode-modal-pangkat">Periode:</label><select id="select-periode-modal-pangkat"><option value="12">Tahunan</option><option value="6">Semester</option><option value="3">Triwulanan</option><option value="1">Bulanan</option></select></div>
+            <div class="form-group"><label for="select-predikat-modal-pangkat">Nilai:</label><select id="select-predikat-modal-pangkat"><option>Sangat Baik</option><option selected>Baik</option><option>Butuh Perbaikan</option><option>Kurang</option><option>Sangat Kurang</option></select></div>
+            <button id="btn-simpan-periode-pangkat" class="btn-primary" style="width: 100%; margin-top: 10px;">Simpan</button>
+        </div>
+    </div>
+
+    <div id="modal-lihat-periode-pangkat" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close-btn">&times;</button>
+            <h4>Daftar Periode Kinerja</h4>
+            <div id="daftar-periode-container-pangkat"></div>
+        </div>
+    </div>
+    
+    <div id="modal-notifikasi" class="modal-overlay">
+        <div class="modal-content" style="max-width: 400px; text-align: center;">
+            <div><div style="font-size: 3em; margin-bottom: 10px;">⚠️</div><h4 id="notif-judul">Peringatan</h4><p id="notif-pesan"></p></div>
+            <button id="notif-btn-ok" class="btn-primary" style="width: 100%; margin: 0;">OK</button>
         </div>
     </div>
 
     <div class="dark-mode-toggle" id="darkModeToggle">🌙</div>
-    
     <script src="js/pangkat.js" defer></script>
 </body>
 </html>

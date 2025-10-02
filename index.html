@@ -71,6 +71,10 @@
             
             <section class="kalkulator-card">
                 <form id="form-simulasi">
+            <div class="form-group">
+            <label for="nama-dosen">Nama Dosen:</label>
+            <input type="text" id="nama-dosen" placeholder="Masukkan nama lengkap Anda...">
+            </div>
                     <div class="form-group">
                         <label for="jenjang">Jabatan Fungsional Saat Ini:</label>
                         <select id="jenjang" required>
@@ -99,23 +103,73 @@
                     </div>
                     <small class="form-hint">Kosongkan jika angka kredit integrasi sudah dipakai untuk kenaikan jenjang!</small>
                     <h3>Angka Kredit Konversi</h3>
-                    <div class="simulasi-header">
-                        <span>Tahun</span>
-                        <span>Periode</span>
-                        <span>Nilai</span>
-                    </div>
                     <div id="riwayat-kinerja-container"></div>
-                    <button type="button" id="tambah-periode" class="btn-secondary">Tambah Periode Simulasi</button>
+<div style="display: flex; gap: 10px; margin-top: 20px;">
+    <button type="button" id="tambah-periode" class="btn-secondary" style="flex: 1; margin: 0;">Tambah Periode</button>
+    <button type="button" id="lihat-konversi" class="btn-primary hidden" style="flex: 1; margin: 0;">Lihat Konversi</button>
+</div>
                     <hr>
                     <button type="submit" class="btn-primary">Hitung Simulasi Karir</button>
+                    <button type="button" id="btn-reset-jenjang" class="btn-secondary" style="margin-top: 10px; background-color: var(--red-error); color: white;">Reset Data Tersimpan</button>
                 </form>
             </section>
         </section>
     </main>
     
     <div id="modal-hasil" class="modal-overlay">
-        <div class="modal-content"><button class="modal-close-btn">&times;</button><div id="modal-output"></div></div>
+    <div class="modal-content">
+        <button class="modal-close-btn">&times;</button>
+        <div id="modal-output"></div>
     </div>
+    </div>
+    <div id="modal-tambah-periode" class="modal-overlay">
+    <div class="modal-content">
+        <button class="modal-close-btn">&times;</button>
+        <h4>Tambah Periode Kinerja</h4>
+        <div class="form-group">
+            <label for="input-tahun-modal">Tahun:</label>
+            <input type="number" id="input-tahun-modal" placeholder="Contoh: 2025">
+        </div>
+        <div class="form-group">
+            <label for="select-periode-modal">Periode Penilaian:</label>
+            <select id="select-periode-modal">
+                <option value="12">Tahunan</option>
+                <option value="6">Semester</option>
+                <option value="3">Triwulanan</option>
+                <option value="1">Bulanan</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="select-predikat-modal">Nilai / Predikat:</label>
+            <select id="select-predikat-modal">
+                <option>Sangat Baik</option>
+                <option selected>Baik</option>
+                <option>Butuh Perbaikan</option>
+                <option>Kurang</option>
+                <option>Sangat Kurang</option>
+            </select>
+        </div>
+        <button id="btn-simpan-periode" class="btn-primary" style="width: 100%; margin-top: 10px;">Simpan Periode</button>
+    </div>
+</div>
+<div id="modal-lihat-konversi" class="modal-overlay">
+    <div class="modal-content">
+        <button class="modal-close-btn">&times;</button>
+        <h4>Daftar Periode Kinerja</h4>
+        <div id="daftar-konversi-container">
+            </div>
+    </div>
+</div>
+<div id="modal-notifikasi" class="modal-overlay">
+    <div class="modal-content" style="max-width: 400px; text-align: center;">
+        <div id="notif-konten">
+            <div id="notif-ikon" style="font-size: 3em; margin-bottom: 10px;">⚠️</div>
+            <h4 id="notif-judul" style="margin-top: 0;">Peringatan</h4>
+            <p id="notif-pesan" style="color: var(--text-light); margin-bottom: 20px;">Pesan notifikasi akan muncul di sini.</p>
+        </div>
+        <button id="notif-btn-ok" class="btn-primary" style="width: 100%; margin: 0;">OK</button>
+    </div>
+</div>
     <div class="dark-mode-toggle" id="darkModeToggle">🌙</div>
     <footer><p>Copyright © 2025 @rogrog</p></footer>
     
