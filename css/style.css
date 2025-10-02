@@ -839,6 +839,21 @@ body.dark-mode .datepicker-footer button:hover {
 .simulasi-header {
     display: none;
 }
+/* Letakkan kode ini di dalam blok @media (max-width: 600px) */
+
+.regulasi-container {
+    /* Menghilangkan padding horizontal agar lebih pas */
+    padding-left: 15px;
+    padding-right: 15px;
+    /* Mengurangi margin atas agar tidak terlalu jauh */
+    margin-top: 30px;
+}
+
+.regulasi-container::before {
+    /* Kunci utama: Membuat bingkai menjadi simetris di mobile */
+    left: 5px;
+    right: 5px;
+}
 }
 /* ================================== */
 /* Gaya untuk Tabel Daftar Kinerja      */
